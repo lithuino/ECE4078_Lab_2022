@@ -88,10 +88,12 @@ class EKF:
     def predict(self, raw_drive_meas):
 
         F = self.state_transition(raw_drive_meas)
-        x = self.get_state_vector()
+        # x = self.get_state_vector()
 
         # TODO: add your codes here to compute the predicted x
         self.robot.drive(raw_drive_meas)
+        x = self.get_state_vector()
+        self.robot.state = x[0:3,:]
         Q = self.predict_covariance(raw_drive_meas)
         self.P = F @ self.P @ F.T + Q
 
@@ -127,6 +129,7 @@ class EKF:
         x = x_hat + K @ y
         # correct covariance 
         self.P = (np.eye(x.shape[0]) - K @ H) @ self.P
+        self.set_state_vector(x)
 
 
     def state_transition(self, raw_drive_meas):
