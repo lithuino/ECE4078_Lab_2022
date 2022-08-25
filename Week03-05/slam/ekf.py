@@ -93,6 +93,9 @@ class EKF:
         # TODO: add your codes here to compute the predicted x
         self.robot.drive(raw_drive_meas)
         x = self.get_state_vector()
+        # print("x:  ", x[0,:])
+        # print("y:  ", x[1,:])
+        # print("th: ", x[2,:])
         self.robot.state = x[0:3,:]
         Q = self.predict_covariance(raw_drive_meas)
         self.P = F @ self.P @ F.T + Q
