@@ -19,7 +19,7 @@ class Robot:
 
         # Compute the linear and angular velocity
         linear_velocity, angular_velocity = self.convert_wheel_speeds(drive_meas.left_speed, drive_meas.right_speed)
-
+        
         # Apply the velocities
         dt = drive_meas.dt
         if angular_velocity == 0:
@@ -75,8 +75,15 @@ class Robot:
 
         dt = drive_meas.dt
         th = self.state[2]
+        #print('ang_vel',ang_vel)
         
-        # TODO: add your codes here to compute DFx using lin_vel, ang_vel, dt, and th
+        # TODO: add your codes here to compute DFx using lin_vel, ang_vel, dt, and th      
+        if ang_vel == 0:
+            DFx[0,2] = -np.sin(th) * lin_vel * dt
+            DFx[1,2] = np.cos(th) * lin_vel * dt
+        else:
+            DFx[0,2] = lin_vel / ang_vel * (np.cos(th+dt*ang_vel) - np.cos(th))
+            DFx[1,2] = lin_vel / ang_vel * (np.sin(th+dt*ang_vel) - np.sin(th))
 
         return DFx
 
@@ -125,12 +132,22 @@ class Robot:
         Jac2 = np.zeros((3,2))
         
         # TODO: add your codes here to compute Jac2 using lin_vel, ang_vel, dt, th, and th2
-
+        if ang_vel == 0:
+            Jac2[0,0] = dt*np.cos(th)
+            Jac2[1,0] = dt*np.sin(th)
+        else:
+            Jac2[0,0] = 1/ang_vel * (np.sin(th2) - np.sin(th))
+            Jac2[0,1] = -lin_vel/(ang_vel**2) * (np.sin(th2) - np.sin(th)) + \
+                            lin_vel / ang_vel * (dt * np.cos(th2))
+            Jac2[1,0] = -1/ang_vel * (np.cos(th2) - np.cos(th))
+            Jac2[1,1] = lin_vel/(ang_vel**2) * (np.cos(th2) - np.cos(th)) + \
+                            -lin_vel / ang_vel * (-dt * np.sin(th2))
+            Jac2[2,1] = dt
         # Derivative of x,y,theta w.r.t. left_speed, right_speed
         Jac = Jac2 @ Jac1
 
         # Compute covariance
         cov = np.diag((drive_meas.left_cov, drive_meas.right_cov))
         cov = Jac @ cov @ Jac.T
-        
+
         return cov

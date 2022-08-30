@@ -88,9 +88,16 @@ class EKF:
     def predict(self, raw_drive_meas):
 
         F = self.state_transition(raw_drive_meas)
-        x = self.get_state_vector()
+        x = self.get_state_vector() # to get the state vector after the update step 
 
         # TODO: add your codes here to compute the predicted x
+        #print('x in predict line 94',x)
+        self.robot.state = x[0:3,:] # set the new state coordinates after the update step in the state vector 
+        self.robot.drive(raw_drive_meas)
+        
+        print('x in predict line 100',self.robot.state)
+        Q = self.predict_covariance(raw_drive_meas)
+        self.P = F @ self.P @ F.T + Q
 
     # the update step of EKF
     def update(self, measurements):
@@ -115,6 +122,18 @@ class EKF:
         x = self.get_state_vector()
 
         # TODO: add your codes here to compute the updated x
+        # compute Kalman Gain
+        S = H @ self.P @ H.T + R
+        K = self.P @ H.T @ np.linalg.inv(S)
+        # correct state 
+        y = z - z_hat 
+        x_hat = x
+        x = x_hat + K @ y
+        # correct covariance 
+        self.P = (np.eye(x.shape[0]) - K @ H) @ self.P
+        print('x in update',x)
+        self.set_state_vector(x)
+        # print('update',x[0:3,:])
 
 
     def state_transition(self, raw_drive_meas):
