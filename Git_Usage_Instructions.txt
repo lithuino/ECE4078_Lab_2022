@@ -1,0 +1,67 @@
+
+*************************************************
+This outlines how to use git via the command line
+*************************************************
+
+***General Git Guidelines***
+1. Always check which branch you are in before you start coding.
+2. Always pull before you start coding.
+3. After you make changes, commit and push them. 
+4. If there is no branch that aligns with the code you are writing, create one.
+5. DO NOT PUSH TO MAIN.
+6. Add descriptive commit messages.
+7. Pushing changes requires git add, git commit and git push. 
+
+Print out the status of your current working repository:
+--------------------------------------------------------
+COMMAND:
+git status
+*Note, this should be used when you want to see what branch you are in.
+
+clone the git repository:
+-------------------------
+COMMAND:
+git clone <repository HTTPS address>
+example:
+git clone https://github.com/lithuino/ECE4078_Lab_2022.git
+
+Stage changes:
+--------------
+This will put the selected files into a state that is ready to be comitted
+COMMAND:
+To add selected files:
+git add <file names> 
+or to add all changed files in the repository:
+git add . 
+
+Commit changes:
+---------------
+This will put commited files into a state so that they can be pushed (it essentially compresses them so that they can be transmitted over the internet)
+COMMAND:
+git commit -m "Insert your commit message here"
+Note* Commit messages should be descriptive of the changes that you are adding.
+
+Push changes:
+-------------
+COMMAND:
+git push
+
+Switch to a branch:
+-------------------
+COMMAND:
+git checkout <branch_name>
+
+Create branch:
+--------------
+COMMAND:
+git branch <branch_name>
+
+Create branch and switch to it:
+-------------------------------
+COMMAND:
+git checkout -b <branch_name>
+
+Get changes from remote repo but don't update you own:
+------------------------------------------------------
+COMMAND:
+git fetch
