@@ -137,3 +137,4 @@ robot_score = (0.15 - Aligned_RMSE)/(0.15 - 0.02) x 80 + NumberOfFoundMarkers x 
 
 ### Marking instructions
 Please see [M2 marking instructions](M2_marking_instructions.md)
+
