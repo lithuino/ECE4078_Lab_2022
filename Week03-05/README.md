@@ -38,7 +38,7 @@ The following helper scripts are provided to support your development of SLAM
 - [A simulator world](gazebo_calib/) for wheel and camera calibration, together with the [calibration scripts](calibration/) and [default parameters](calibration/param/): see [calibration section](#Calibration-week-3) for details
 - [aruco_detector.py](slam/aruco_detector.py) uses OpenCV to detect ARUCO markers and provides an estimation to their positions, which will be used for SLAM in addition to the drive signals
 - [mapping_utils.py](slam/mapping_utils.py) saves the SLAM map for evaluation
-- [SLAM_eval.py](SLAM_eval.py) evaluates a SLAM map against the ground truth
+
 
 
 ## Activities
@@ -137,16 +137,3 @@ robot_score = (0.15 - Aligned_RMSE)/(0.15 - 0.02) x 80 + NumberOfFoundMarkers x 
 
 ### Marking instructions
 Please see [M2 marking instructions](M2_marking_instructions.md)
-
-## FAQs: M2
-- If you are using Mac to run the VM and are encountering performance issues, please follow the steps in [this link](https://www.reddit.com/r/virtualbox/comments/houi9k/how_to_fix_virtualbox_61_running_slow_on_mac/) 
-- Refer to the comments in each of the [calibrateWheelRadius](calibration/wheel_calibration.py#L10) and [calibrateBaseline](calibration/wheel_calibration.py#L52) functions for that each of these values corresponds to on the physical robot
-- Take a close look at the units of the expected output when formulating your calculations. Referring to these equations may be helpful:
-
-![Useful equations for calculating baseline](screenshots/AngularVelocity.png?raw=true "Useful equations for calculating baseline")
-
-- It is recommended that you keep the file structure for this lab material (and future weeks) unchanged to avoid path errors
-- Remember to reach out via Slack if you encounter issues with your VM between lab sessions
-- Beware of the sign error that can happen with calculating the difference between the measurement and estimate in the correction step
-- The state vector x will be appended with the aruco-marker measurements. Take a note of the location of x that should be updated in the motion model.
-- In the prediction step, we should update the mean belief by driving the robot.
