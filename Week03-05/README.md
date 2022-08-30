@@ -5,6 +5,9 @@
 - [Activities](#Activities)
     - [Calibration (week 3)](#Calibration-week-3)
     - [SLAM (week 4-5)](#SLAM-week-4-5)
+- [M2 Marking](#M2-Marking)
+    - [Evaulation scheme](#evaluation-scheme)
+    - [Instructions](#marking-instructions)
 - [Technical FAQs](#FAQs-M2)
 
 
@@ -35,7 +38,7 @@ The following helper scripts are provided to support your development of SLAM
 - [A simulator world](gazebo_calib/) for wheel and camera calibration, together with the [calibration scripts](calibration/) and [default parameters](calibration/param/): see [calibration section](#Calibration-week-3) for details
 - [aruco_detector.py](slam/aruco_detector.py) uses OpenCV to detect ARUCO markers and provides an estimation to their positions, which will be used for SLAM in addition to the drive signals
 - [mapping_utils.py](slam/mapping_utils.py) saves the SLAM map for evaluation
-- [SLAM_eval.py](SLAM_eval.py) evaluates a SLAM map against the ground truth
+
 
 
 ## Activities
@@ -116,15 +119,21 @@ Run ```python3 SLAM_eval.py TRUEMAP.txt lab_output/slam.txt``` and you should se
  
 ![Example output of SLAM evaluation script](screenshots/SLAM_eval_output.png?raw=true "Example output of SLAM evaluation script")
 
-## FAQs: M2
-- If you are using Mac to run the VM and are encountering performance issues, please follow the steps in [this link](https://www.reddit.com/r/virtualbox/comments/houi9k/how_to_fix_virtualbox_61_running_slow_on_mac/) 
-- Refer to the comments in each of the [calibrateWheelRadius](calibration/wheel_calibration.py#L10) and [calibrateBaseline](calibration/wheel_calibration.py#L52) functions for that each of these values corresponds to on the physical robot
-- Take a close look at the units of the expected output when formulating your calculations. Referring to these equations may be helpful:
+## M2 Marking
+### Evaluation scheme
+To allow for the best performance of your SLAM module, you will be marked based on finding the 10 ARUCO markers, *the RMSE after alignment* between your estimations and the true locations of these markers during a live demonstration in both the simulation and the physical robot conducted in a **NEW MAP** in week 6. After the live demo, the map generated will be marked against the groundtruth map using [SLAM_eval.py](SLAM_eval.py). 5% of the total mark will be deducted for each marker the robot has collided into. Your M2 mark is computed as using the following:
 
-![Useful equations for calculating baseline](screenshots/AngularVelocity.png?raw=true "Useful equations for calculating baseline")
+**For simulation evaluation:**
+simulation_score = (0.2 - Aligned_RMSE)/(0.2 - 0.025) x 80 + NumberOfFoundMarkers x 2
 
-- It is recommended that you keep the file structure for this lab material (and future weeks) unchanged to avoid path errors
-- Remember to reach out via Slack if you encounter issues with your VM between lab sessions
-- Beware of the sign error that can happen with calculating the difference between the measurement and estimate in the correction step
-- The state vector x will be appended with the aruco-marker measurements. Take a note of the location of x that should be updated in the motion model.
-- In the prediction step, we should update the mean belief by driving the robot.
+**For physical robot evaluation:**
+robot_score = (0.15 - Aligned_RMSE)/(0.15 - 0.02) x 80 + NumberOfFoundMarkers x 2
+
+**Total mark = 0.8 x simulation_score + 0.2 x robot_score - 0.05 x NumberOfCollidedMarkers**
+
+*For the remote session, total mark = simulation score
+
+**Note:** If your Aligned_RMSE value goes beyond the upper bound (0.2 for sim and 0.15 for robot), your score will be 0. Similarly, if the value goes below the lower bound, (0.025 for sim and 0.02 for robot), your will get full score. 
+
+### Marking instructions
+Please see [M2 marking instructions](M2_marking_instructions.md)
