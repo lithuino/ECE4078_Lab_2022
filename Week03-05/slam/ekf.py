@@ -94,9 +94,8 @@ class EKF:
         #print('x in predict line 94',x)
         self.robot.state = x[0:3,:] # set the new state coordinates after the update step in the state vector 
         self.robot.drive(raw_drive_meas)
-        
-        # print('x in predict line 100',self.robot.state)
         Q = self.predict_covariance(raw_drive_meas)
+        # print('x in predict line 100',self.robot.state)
         self.P = F @ self.P @ F.T + Q
 
     # the update step of EKF
