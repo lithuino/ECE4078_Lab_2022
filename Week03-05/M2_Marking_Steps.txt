@@ -1,0 +1,33 @@
+Milestone 2 marking steps:
+
+SETUP:
+1. Remove all print statements from code.
+2. Download marking_map.txt from Slack and put into ~/LiveDemo/catkin_ws/src/penguinpi_gazebo/
+3. Download .zip file from moodle.
+4. Unzip Week_03-05 folder and catkin_ws folder into empty ~/LiveDemo folder
+
+SIMULATION:
+setup:
+1. For sim demo place the true map inside the Week03-05 folder.
+2. Run source ~/LiveDemo/catkin_ws/devel/setup.bash
+3. Run roslaunch penguinpi_gazebo ECE4078.launch
+4. Open new terminal in ~/LiveDemo/Week03-05/
+5. Run source ~/LiveDemo/catkin_ws/devel/setup.bash
+5. Run rosrun penguinpi_gazebo scene_manager.py -l marking_map.txt
+6. Run python3 operate.py
+
+running SLAM:
+5 minutes to map area. Stop by pressing 's'.
+
+marking:
+1. Run python3 SLAM_eval.py marking_map.txt lab_output/slam.txt
+2. Rename output files in order of attempts. I.e., sim_slam_1.txt, robot_slam_1.txt
+3. Zip up output folder and submit to moodle under map submission box.
+
+ROBOT:
+setup:
+1. Place the robot calibration files in the /calibration/param folder
+
+running SLAM:
+1. Run python3 operate.py --ip 192.168.50.1 --port 8080
+2. 5 minutes to map area. Stop by pressing 's'.

@@ -1,0 +1,6 @@
+Tips to help reduce error while navigatings:
+
+- At the beginning, turn the robot 360 degrees since the position estimate error is low.
+- Move to parts of the map and rotate 360 degrees.
+- If marker's estimates are elliptical, it means their uncertainty is large in that direction. If it is in depth, use reference markers to get depth perception.
+- !!CRITICAL!! when the time is running out, the best approach is to lower the position estimate of the robot to as low as possible. This can be done by getting as many high confidence markers in frame at once. 
